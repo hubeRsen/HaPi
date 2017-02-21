@@ -284,11 +284,16 @@ class HarvestAPI {
      * } 
      * </code>
      *
-     * @param $entry    Day Entry
+     * @param $entry    Harvest_DayEntry
      * @return Harvest_Result
      */
     public function createEntry($entry) {
         $url = "daily/add";
+
+        if ( ! empty( $entry->get( 'user_id' ) ) ) {
+			$url .= '?of_user=' . $entry->get( 'user_id' );
+		}
+
         return $this->performPOST($url, $entry->toXML(), false);
     }
 
@@ -361,12 +366,17 @@ class HarvestAPI {
      * } 
      * </code>
      *
-     * @param $entry    Day Entry
+     * @param $entry    Harvest_DayEntry
      * @return Harvest_Result
      */
     public function updateEntry($entry) {
         $url = "daily/update/$entry->id";
-        return $this->performPOST($url, $entry->toXML());
+
+		if ( ! empty( $entry->get( 'user_id' ) ) ) {
+			$url .= '?of_user=' . $entry->get( 'user_id' );
+		}
+
+		return $this->performPOST($url, $entry->toXML());
     }
 
     /* -------------------------------------------------------------- */
