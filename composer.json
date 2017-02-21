@@ -1,0 +1,5 @@
+{
+  "name": "hubeRsen/HaPi",
+  "description": "Harvest api php wrapper",
+  "minimum-stability": "stable"
+}
