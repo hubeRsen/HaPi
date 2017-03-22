@@ -120,6 +120,11 @@ class WeAreRequiredHarvestSync {
 				// ignore archived projects
 				if ( $project->get( 'active' ) == 'false' ) continue;
 
+				$code = $project->get( 'code' );
+				if ( empty( $code ) ) {
+					throw new Exception( 'Project does not have a code: ' . $project->get( 'name' ) );
+				}
+
 				$project_map[ $project->get( 'code' ) ] = array( 'from' => $project->get( 'id' ) );
 				$this->translations['p'.$project->get( 'id' )] = $project->get( 'name' );
 			}
@@ -354,12 +359,11 @@ try {
 	$sync->addUserMap( 1416494, 1522042 );
 
 	// sync the last 7 days, except today.
-	$range = new Harvest_Range( '2017-02-27', date( 'Ymd', time() - 60*60*24 ) );
+	$range = new Harvest_Range( '2017-03-22', date( 'Ymd', time() - 60*60*24 ) );
 	$sync->syncEntries( $range );
 
 } catch( Exception $e ) {
 
-	$sync->saveSyncedEntries();
-
 	die( 'Something went wrong :-( : ' . $e->getMessage() );
+
 }
